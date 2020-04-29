@@ -2,9 +2,8 @@ package qapp
 
 // 检测地址
 const (
-	apiIMGSecCheck     = "/api/json/security/ImgSecCheck"
-	apiMSGSecCheck     = "/api/json/security/MsgSecCheck"
-	apiMediaCheckAsync = "/api/json/security/MediaCheckAsync"
+	apiIMGSecCheck = "/api/json/security/ImgSecCheck"
+	apiMSGSecCheck = "/api/json/security/MsgSecCheck"
 )
 
 // IMGSecCheck 本地图片检测
@@ -73,50 +72,6 @@ func msgSecCheck(api, token, content string) (*CommonError, error) {
 	}
 
 	res := new(CommonError)
-	if err = postJSON(url, params, res); err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
-
-// MediaType 检测内容类型
-type MediaType = uint8
-
-// 所有检测内容类型
-const (
-	_              MediaType = iota
-	MediaTypeAudio           // 音频
-	MediaTypeImage           // 图片
-)
-
-// CheckMediaResponse 异步校验图片/音频返回数据
-type CheckMediaResponse struct {
-	CommonError
-	TraceID string `json:"trace_id"`
-}
-
-// MediaCheckAsync 异步校验图片/音频是否含有违法违规内容。
-//
-// mediaURL 要检测的多媒体url
-// mediaType 接口调用凭证(access_token)
-func MediaCheckAsync(token, mediaURL string, mediaType MediaType) (*CheckMediaResponse, error) {
-	api := baseURL + apiMediaCheckAsync
-	return mediaCheckAsync(api, token, mediaURL, mediaType)
-}
-
-func mediaCheckAsync(api, token, mediaURL string, mediaType MediaType) (*CheckMediaResponse, error) {
-	url, err := tokenAPI(api, token)
-	if err != nil {
-		return nil, err
-	}
-
-	params := requestParams{
-		"media_url":  mediaURL,
-		"media_type": mediaType,
-	}
-
-	res := new(CheckMediaResponse)
 	if err = postJSON(url, params, res); err != nil {
 		return nil, err
 	}
