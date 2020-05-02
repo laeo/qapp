@@ -3,7 +3,7 @@ package qapp
 
 const (
 	// baseURL 微信请求基础URL
-	baseURL = "https://api.q.qq.com/"
+	baseURL = "https://api.q.qq.com"
 )
 
 // POST 参数
